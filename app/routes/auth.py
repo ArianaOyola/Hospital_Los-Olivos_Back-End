@@ -35,13 +35,14 @@ def register(
             detail="El correo electrónico ya está registrado",
         )
 
+    
     user = create_user(
-        db=db,
-        full_name=data.full_name,
-        email=data.email,
-        password=data.password,
-        role=data.role,
-    )
+    db=db,
+    full_name=data.full_name,
+    email=data.email,
+    password=data.password,
+    role="patient",
+)
 
     return user
 

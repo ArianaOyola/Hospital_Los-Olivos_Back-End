@@ -1,3 +1,4 @@
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -6,7 +7,7 @@ class Settings(BaseSettings):
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = True
 
-    DATABASE_URL: str = "sqlite:///./hospital.db"
+    DATABASE_URL: str
 
     SECRET_KEY: str = "cambiar-esta-clave-en-produccion"
 

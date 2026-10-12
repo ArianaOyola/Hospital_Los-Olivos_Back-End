@@ -46,8 +46,11 @@ def require_roles(*roles: str):
         current_user: User = Depends(get_current_user),
     ) -> User:
         if current_user.role not in roles:
-            raise CredentialsException()
+            from fastapi import HTTPException, status
 
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="No tienes permisos para realizar esta acción",
+            )
         return current_user
-
     return role_dependency
