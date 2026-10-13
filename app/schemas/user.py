@@ -1,15 +1,25 @@
 from datetime import datetime
+from typing import Literal
 
 from pydantic import EmailStr, Field
 
 from app.schemas.base import BaseSchema
 
 
+UserRole = Literal[
+    "admin",
+    "recepcionista",
+    "medico",
+    "enfermero",
+    "archivo",
+]
+
+
 class UserCreate(BaseSchema):
     full_name: str = Field(min_length=2, max_length=150)
     email: EmailStr
     password: str = Field(min_length=6, max_length=100)
-    role: str = "patient"
+    role: UserRole = "recepcionista"
 
 
 class UserUpdate(BaseSchema):
@@ -19,7 +29,7 @@ class UserUpdate(BaseSchema):
         max_length=150,
     )
     email: EmailStr | None = None
-    role: str | None = None
+    role: UserRole | None = None
     is_active: bool | None = None
 
 

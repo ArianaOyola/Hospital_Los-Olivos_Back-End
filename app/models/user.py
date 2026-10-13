@@ -24,10 +24,10 @@ class User(Base):
     )
 
     role: Mapped[str] = mapped_column(
-        String(30),
-        nullable=False,
-        default="patient",
-    )
+    String(30),
+    nullable=False,
+    default="recepcionista",
+)
 
     is_active: Mapped[bool] = mapped_column(
         Boolean,

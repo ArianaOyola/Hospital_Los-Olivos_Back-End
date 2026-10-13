@@ -2,14 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.dependencies import require_roles
+from app.models.user import User
 from app.schemas.auth import LoginRequest, TokenResponse
-from app.schemas.user import UserCreate, UserResponse
+from app.schemas.user import UserResponse
 from app.services.auth_service import (
     authenticate_user,
-    create_user,
     create_user_token,
 )
-from app.services.user_service import get_user_by_email
 
 
 router = APIRouter(
@@ -20,31 +20,16 @@ router = APIRouter(
 
 @router.post(
     "/register",
-    response_model=UserResponse,
-    status_code=status.HTTP_201_CREATED,
+    status_code=status.HTTP_403_FORBIDDEN,
 )
-def register(
-    data: UserCreate,
-    db: Session = Depends(get_db),
-):
-    existing_user = get_user_by_email(db, data.email)
-
-    if existing_user:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail="El correo electrónico ya está registrado",
-        )
-
-    
-    user = create_user(
-    db=db,
-    full_name=data.full_name,
-    email=data.email,
-    password=data.password,
-    role="patient",
-)
-
-    return user
+def register():
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail=(
+            "El registro público está deshabilitado. "
+            "Solicita al administrador la creación de tu cuenta."
+        ),
+    )
 
 
 @router.post(
